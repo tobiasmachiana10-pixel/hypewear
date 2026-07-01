@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HYPEWEAR Studio — Street culture redefinida. Feito em Moçambique.">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- ─── Open Graph ─────────────────────── -->
+  <meta property="og:title"       content="HYPEWEAR — Studio">
+  <meta property="og:description" content="Street culture redefinida. Cada peça conta uma história.">
+  <meta property="og:type"        content="website">
+  <meta property="og:image"       content="https://hypewear.vercel.app/lib/img/og-hypewear.jpg">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url"          content="https://hypewear.vercel.app">
+
+  <title>HYPEWEAR — Studio</title>
+
+  <link rel="icon" type="image/png" href="lib/fav/favicon.png">
+
+  <!-- Preconnect ao CDN para reduzir latência -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <link rel="preload" href="lib/fav/hyper_logo.png" as="image">
+
+  <link rel="stylesheet" href="css/hypewear.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  
+</head>
+
+<body>
+
+  <nav id="nav" role="navigation" aria-label="Navegação principal">
+
+    <div class="nav-left">
+      <!-- Logo imagem — src trocado pelo JS conforme o tema -->
+      <a href="hypewear.html" class="nav-logo-img" aria-label="Hypewear — Início">
+        <img
+          src="lib/fav/hyper_logo.png"
+          alt="Hypewear logo"
+          class="hyplogo"
+          id="navLogo"
+          data-src-light="lib/fav/hyper_logo.png"
+          data-src-dark="lib/fav/hyper_logo_light.png"
+        >
+      </a>
+  
+      <a href="hypewear.html" class="nav-logo" aria-label="Hypewear">
+        <span class="nav-logo-name">Hype<span>wear</span></span>
+      </a>
+    </div>
+
+    <!-- Links desktop (ocultos em mobile via CSS) -->
+    <ul class="nav-links" role="list">
+      <li><a href="#novidades">Novidades</a></li>
+      <li><a href="#colecao">Coleção</a></li>
+      <li><a href="#editorial">Editorial</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+    </ul>
+
+    <!-- Acções: carrinho, tema, hamburger -->
+    <div class="nav-actions">
+
+      <!-- Carrinho -->
+      <button class="btn-icon" id="cartBtn" aria-label="Abrir carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge" aria-live="polite" aria-label="Itens no carrinho">0</span>
+      </button>
+
+      <!-- Theme toggle: alterna entre dark e light mode -->
+      <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Activar modo escuro">
+        <!-- Ícone SOL — visível em dark mode (clica para voltar ao light) -->
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1"  x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1"  y1="12" x2="3"  y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+          <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+        </svg>
+        <!-- Ícone LUA — visível em light mode (clica para activar dark) -->
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+
+      <!-- Hamburger -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════
+       MENU MOBILE
+  ═══════════════════════════════════════════ -->
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+    aria-hidden="true"
+    role="dialog"
+    aria-label="Menu de navegação"
+  >
+    <a href="#novidades" class="mobile-link" data-menu-link>Novidades</a>
+    <a href="#colecao"   class="mobile-link" data-menu-link>Coleção</a>
+    <a href="#editorial" class="mobile-link" data-menu-link>Editorial</a>
+    <a href="#sobre"     class="mobile-link" data-menu-link>Sobre</a>
+  </div>
+  <!-- Overlay semitransparente que fecha o menu ao clicar fora -->
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="hero" aria-label="Apresentação">
+    <div class="hero-left">
+      <span class="hero-tag">SS 2026 — Feito em Moçambique</span>
+      <h1 class="hero-title">
+        Define<br>
+        <span class="outline">Seu</span><br>
+        Estilo.
+      </h1>
+      <a href="#colecao" class="btn btn-primary hero-cta">
+        Explorar coleção
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       CATEGORIAS
+  ═══════════════════════════════════════════ -->
+  <nav class="categories" aria-label="Categorias de produto">
+    <div class="cat-grid">
+
+      <a class="cat-item nevlek-tshirts" href="#colecao" data-filter="tshirts" aria-label="Ver T-Shirts">
+        <span class="cat-num">01</span>
+        <div class="cat-footer">
+          <div class="cat-name">T-Shirts</div>
+          <div class="cat-arrow" aria-hidden="true">↗</div>
+        </div>
+      </a>
+
+      <a class="cat-item nevlek-hoodies" href="#colecao" data-filter="hoodies" aria-label="Ver Hoodies">
+        <span class="cat-num">02</span>
+        <div class="cat-footer">
+          <div class="cat-name">Hoodies</div>
+          <div class="cat-arrow" aria-hidden="true">↗</div>
+        </div>
+      </a>
+
+      <a class="cat-item nevlek-ecobags" href="#colecao" data-filter="ecobags" aria-label="Ver Ecobags">
+        <span class="cat-num">03</span>
+        <div class="cat-footer">
+          <div class="cat-name">Ecobags</div>
+          <div class="cat-arrow" aria-hidden="true">↗</div>
+        </div>
+      </a>
+
+      <a class="cat-item nevlek-caps" href="#colecao" data-filter="caps" aria-label="Ver Caps">
+        <span class="cat-num">04</span>
+        <div class="cat-footer">
+          <div class="cat-name">Caps</div>
+          <div class="cat-arrow" aria-hidden="true">↗</div>
+        </div>
+      </a>
+
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECÇÃO: NOVIDADES (Carousel)
+  ═══════════════════════════════════════════ -->
+  <section class="products reveal" id="novidades" aria-label="Lançamentos">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">— Novidades</div>
+        <h2 class="section-title">Lançamentos</h2>
+      </div>
+    </div>
+
+    <div class="carousel-wrapper" role="region" aria-label="Carrossel de produtos" aria-roledescription="carousel">
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+
+    <div class="carousel-nav">
+      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Navegar slides"></div>
+      <div class="carousel-arrows">
+        <button class="carousel-arrow" id="carouselPrev" aria-label="Slide anterior" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-arrow" id="carouselNext" aria-label="Próximo slide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       MODAL DE DETALHE DO PRODUTO
+       — Abre ao clicar num produto (openModal via JS)
+       — Fecha via botão ✕, clique no overlay ou tecla ESC
+       — Em mobile transforma-se em bottom sheet (via CSS)
+       — Todos os campos preenchidos dinamicamente pelo JS
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalOverlay" aria-hidden="true"></div>
+
+  <div
+    class="modal"
+    id="productModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-hidden="true"
+  >
+    <!-- Lado esquerdo: imagem do produto -->
+    <div class="modal-img" id="modalImg">
+      <!-- img real; onerror activa o SVG fallback -->
+      <img id="modalImgPng" src="" alt="" loading="lazy">
+      <span id="modalImgSvg" aria-hidden="true"></span>
+      <button class="modal-close" id="modalClose" aria-label="Fechar produto">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6"  x2="6"  y2="18"/>
+          <line x1="6"  y1="6"  x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Lado direito: informação e acções -->
+    <div class="modal-body">
+      <div>
+        <div class="modal-tag"   id="modalTag"></div>
+        <h2 class="modal-title" id="modalTitle"></h2>
+      </div>
+      <div class="modal-price-row">
+        <span class="modal-price"     id="modalPrice"></span>
+        <span class="modal-price-old" id="modalPriceOld"></span>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+
+      <!-- Selector de cor -->
+      <div>
+        <span class="modal-label">
+          Cor &mdash;
+          <span
+            id="modalColorName"
+            style="text-transform:capitalize; font-style:italic; font-weight:600; color:var(--text-primary)"
+          ></span>
+        </span>
+        <div class="modal-colors" id="modalColors" role="group" aria-label="Selecionar cor"></div>
+      </div>
+
+      <!-- Selector de tamanho -->
+      <div>
+        <span class="modal-label">Tamanho</span>
+        <div class="modal-sizes" id="modalSizes" role="group" aria-label="Selecionar tamanho"></div>
+      </div>
+
+      <!-- Botão principal -->
+      <div class="modal-actions">
+        <button class="modal-add" id="modalAddBtn" aria-label="Adicionar ao carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Adicionar ao carrinho
+        </button>
+      </div>
+
+      <!-- Indicadores de confiança -->
+      <div class="modal-trust" aria-label="Garantias">
+        <span class="modal-trust-item"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i> Envio em 48&ndash;72h</span>
+        <span class="modal-trust-item"><i class="fa-solid fa-medal" aria-hidden="true"></i> Qualidade Premium</span>
+        <span class="modal-trust-item"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Pagamento Seguro</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECÇÃO: EDITORIAL
+  ═══════════════════════════════════════════ -->
+  <section class="editorial reveal" id="editorial" aria-label="Editorial">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">— Editorial</div>
+        <h2 class="section-title drops">Drops em Destaque</h2>
+      </div>
+    </div>
+    <div class="editorial-grid">
+
+      <div class="editorial-main nevlek-main">
+        <span class="ed-tag">Coleção Principal</span>
+        <h3 class="ed-title">Essentials<br>Vol. III</h3>
+        <a href="#colecao" class="btn btn-primary" style="margin-top:1.5rem; width:fit-content">
+          Comprar agora
+        </a>
+      </div>
+
+      <div class="editorial-side">
+        <div class="editorial-small nevlek-moletom">
+          <span class="ed-tag">Drop Limitado</span>
+          <h3 class="ed-title-sm">Moletom<br>Archive</h3>
+        </div>
+        <div class="editorial-small nevlek-capsulenoir">
+          <span class="ed-tag">Exclusivo</span>
+          <h3 class="ed-title-sm">Capsule<br>Noir</h3>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECÇÃO: COLEÇÃO COMPLETA
+       — Barra de filtros (data-cat) ligada ao JS
+       — #fullGrid populado e re-renderizado pelo JS
+         ao trocar de filtro (aria-live para screen readers)
+  ═══════════════════════════════════════════ -->
+  <section class="products reveal" id="colecao" aria-label="Coleção completa">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">— Catálogo</div>
+        <h2 class="section-title">Coleção Completa</h2>
+      </div>
+    </div>
+
+    <div class="filter-bar" id="filterBar" role="group" aria-label="Filtrar por categoria">
+      <button class="filter-btn active" data-cat="todos">Todos</button>
+      <button class="filter-btn" data-cat="tshirts">T-Shirts</button>
+      <button class="filter-btn" data-cat="hoodies">Hoodie</button>
+      <button class="filter-btn" data-cat="ecobags">Ecobags</button>
+      <button class="filter-btn" data-cat="caps">Caps</button>
+    </div>
+
+    <div class="prod-grid" id="fullGrid" aria-live="polite" aria-atomic="false"></div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECÇÃO: FEATURES / SOBRE
+  ═══════════════════════════════════════════ -->
+  <section class="features reveal" id="sobre" aria-label="Sobre a Hypewear">
+    <div class="feat-grid">
+
+      <div class="feat-item">
+        <div class="feat-icon" aria-hidden="true"><i class="fa-solid fa-truck-fast"></i></div>
+        <div class="feat-name">Entrega Rápida</div>
+        <p class="feat-desc">Envio em 24–48h para todo o país. Entrega gratuita em compras acima de 3.500 MZN.</p>
+      </div>
+
+      <div class="feat-item">
+        <div class="feat-icon" aria-hidden="true"><i class="fa-solid fa-medal"></i></div>
+        <div class="feat-name">Qualidade Premium</div>
+        <p class="feat-desc">Feitas com tecidos selecionados de 100% algodão, as nossas peças refletem um compromisso com a qualidade, o conforto e a atenção meticulosa a cada detalhe.</p>
+      </div>
+
+      <div class="feat-item">
+        <div class="feat-icon" aria-hidden="true"><i class="fa-solid fa-ban"></i></div>
+        <div class="feat-name">Sem devoluções</div>
+        <p class="feat-desc">Recomendamos que verifique cuidadosamente o tamanho e descrição do produto antes da compra.</p>
+      </div>
+
+      <div class="feat-item">
+        <div class="feat-icon" aria-hidden="true"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="feat-name">Pagamento Seguro</div>
+        <p class="feat-desc">M-pesa, transferência bancária, dinheiro em espécie (Numerário).</p>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+
+    <!-- Marca -->
+    <div class="footer-brand-box">
+      <div class="footer-brand">Hypewear</div>
+      <p class="footer-tagline">
+        Street culture redefinida. Cada peça conta uma história.
+        Cada drop é um movimento. Orgulhosamente feito em Moçambique.
+      </p>
+    </div>
+
+    <!-- Ajuda -->
+    <nav class="footer-col" aria-label="Links de ajuda">
+      <h4>Ajuda</h4>
+      <ul role="list">
+        <li><a href="faq.html">Perguntas frequentes</a></li>
+        <li><a href="about.html">Sobre nós</a></li>
+      </ul>
+    </nav>
+
+    <!-- Contato -->
+    <nav class="footer-col" aria-label="Contato">
+      <h4>Contato</h4>
+
+      <div class="redes-social">
+        <a href="https://www.instagram.com/hypewear__mz?igsh=d2RtbTRlbjV2dWRx" aria-label="Instagram">
+          <i class="fab fa-instagram nevlek-media"></i>
+        </a>
+
+        <a href="https://wa.me/258848401586" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp nevlek-media"></i>
+        </a>
+        <a href="mailto:hypewear008@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope nevlek-media"></i>
+        </a>
+      </div>
+
+      <small class="footer-contact-text">
+        Fala connosco para encomendas, suporte e collabs.
+      </small>
+    </nav>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">
+      © 2026 Hypewear — Maputo, Moçambique
+    </span>
+  </div>
+</footer>
+  
+
+
+  <!-- ═══════════════════════════════════════════
+       CARRINHO — DRAWER LATERAL
+  ═══════════════════════════════════════════ -->
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+  <aside
+    class="cart-drawer"
+    id="cartDrawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Carrinho de compras"
+    aria-hidden="true"
+  >
+    <div class="cart-header">
+      <span class="cart-header-title">Carrinho</span>
+      <button class="btn-icon" id="cartClose" aria-label="Fechar carrinho">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6"  x2="6"  y2="18"/>
+          <line x1="6"  y1="6"  x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-body" id="cartBody">
+      <!-- Estado vazio — visível quando não há itens -->
+      <div class="cart-empty" id="cartEmpty" aria-live="polite">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <p>O seu carrinho está vazio</p>
+      </div>
+      <!-- Lista de itens — populada pelo JS -->
+      <div id="cartItems" aria-live="polite"></div>
+    </div>
+
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal-label">Subtotal</span>
+        <span class="cart-subtotal-value" id="cartTotal">0 MZN</span>
+      </div>
+
+      <!-- Finalizar via WhatsApp -->
+      <button class="btn btn-dark btn-block" id="checkoutBtn" aria-label="Finalizar compra via WhatsApp" style="margin-bottom:.6rem">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.123 1.532 5.858L.057 23.25a.75.75 0 00.916.948l5.453-1.63A11.938 11.938 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.937 9.937 0 01-5.073-1.386l-.362-.214-3.758 1.122 1.072-3.644-.235-.375A9.959 9.959 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        </svg>
+        Finalizar via WhatsApp
+      </button>
+
+      <!-- Exportar PDF -->
+      <button class="btn btn-outline btn-block" id="exportPdfBtn" aria-label="Exportar resumo da encomenda em PDF" style="margin-bottom:.6rem">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex-shrink:0">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <line x1="9"  y1="15" x2="15" y2="15"/>
+        </svg>
+        Exportar PDF
+      </button>
+
+      <button class="btn btn-outline btn-block" id="cartContinue">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 5 5 12 12 19"/>
+        </svg>
+        Continuar comprando
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- ═══════════════════════════════════════════
+       TOAST (notificação temporária)
+       Exibido ao adicionar ao carrinho ou subscrever newsletter
+  ═══════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- jsPDF carregado apenas quando o utilizador clica em "Exportar PDF" -->
+  <script>
+    function loadJsPDF(cb) {
+      if (window.jspdf && window.jspdf.jsPDF) { cb && cb(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload = () => cb && cb();
+      s.onerror = () => showToast('Erro ao carregar biblioteca PDF');
+      document.head.appendChild(s);
+    }
+  </script>
+
+  <script src="js/hypewear.js"></script>
+</body>
+</html>
