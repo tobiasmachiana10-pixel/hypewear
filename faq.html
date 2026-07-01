@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+
+<!-- ═══════════════════════════════════════════
+     FAQ — Perguntas Frequentes
+     Página externa com o mesmo estilo do index.html
+     Partilha o mesmo CSS e JS de tema (dark/light).
+═══════════════════════════════════════════ -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Perguntas frequentes — Hypewear Studio. Entregas, pagamentos, trocas e mais.">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>FAQ — HYPEWEAR</title>
+  <link rel="icon" type="image/png" href="lib/fav/hyper_logo.png">
+  <link rel="stylesheet" href="css/hypewear.css">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+  <script src="https://kit.fontawesome.com/81056d3dc8.js" crossorigin="anonymous"></script>
+  <style>
+
+    /* Espaço do hero substituído por cabeçalho simples */
+    .faq-hero {
+      margin-top: var(--nav-h);
+      background: var(--bg-inverted);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .faq-hero-tag {
+      font-size: .54rem;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--static-muted);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .faq-hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -.03em;
+      line-height: 1;
+    }
+
+    .faq-hero-sub {
+      margin-top: 1.2rem;
+      font-size: .65rem;
+      color: var(--static-muted);
+      letter-spacing: .1em;
+    }
+
+    /* Área principal do FAQ */
+    .faq-section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem 7rem;
+    }
+
+    /* Grupo de categoria */
+    .faq-group {
+      margin-bottom: 4rem;
+    }
+
+    .faq-group-title {
+      font-size: .54rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1.5rem;
+      padding-bottom: .8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Item accordion */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Botão que abre/fecha a resposta */
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.4rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+      color: var(--text-primary);
+      transition: color .2s ease;
+    }
+
+    .faq-question:hover { color: var(--text-secondary); }
+
+    /* Ícone chevron que roda 180° ao abrir */
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border: 1px solid var(--border-muted);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-tertiary);
+      transition: transform .35s var(--ease-out), background .25s ease, border-color .25s ease, color .25s ease;
+    }
+
+    .faq-icon svg {
+      width: 13px; height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke .25s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+      background: var(--text-primary);
+      border-color: var(--text-primary);
+      color: var(--bg-page);
+    }
+
+    /* Resposta — oculta por defeito, expande com animação */
+    .faq-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .35s var(--ease-out);
+    }
+
+    .faq-item.open .faq-answer {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-answer-inner {
+      overflow: hidden;
+    }
+
+    .faq-answer p {
+      padding-bottom: 1.4rem;
+      font-size: .68rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+    }
+
+    .faq-answer a {
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .faq-answer a:hover { color: var(--text-secondary); }
+
+    /* Bloco de contacto no fundo */
+    .faq-contact {
+      margin-top: 5rem;
+      padding: 3rem 2.5rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .faq-contact-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: .6rem;
+      color: var(--text-primary);
+    }
+
+    .faq-contact-sub {
+      font-size: .63rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    /* Breadcrumb de volta ao início */
+    .faq-back {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .58rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--static-muted);
+      text-decoration: none;
+      margin-bottom: 3rem;
+      transition: color .2s ease;
+    }
+
+    .faq-back:hover { color: var(--static-light); }
+
+    @media (max-width: 560px) {
+      .faq-section  { padding: 3rem 1.2rem 5rem; }
+      .faq-hero     { padding: 4rem 1.2rem 3rem; }
+      .faq-contact  { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav id="nav" role="navigation" aria-label="Navegação principal">
+
+    <div class="nav-left">
+      <a href="hypewear.html" class="nav-logo-img" aria-label="Hypewear — Início">
+        <img
+          src="lib/fav/hyper_logo.png"
+          alt="Hypewear logo"
+          class="hyplogo"
+          id="navLogo"
+          data-src-light="lib/fav/hyper_logo.png"
+          data-src-dark="lib/fav/hyper_logo_light.png"
+        >
+      </a>
+      <a href="hypewear.html" class="nav-logo" aria-label="Hypewear">
+        <span class="nav-logo-name">Hype<span>wear</span></span>
+      </a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn-icon theme-toggle" id="themeToggle" aria-label="Activar modo escuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1"  x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1"  y1="12" x2="3"  y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+          <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+
+      <a href="hypewear.html" class="btn btn-outline" style="font-size:.55rem; padding:.6rem 1.2rem;" aria-label="Voltar à loja">
+        ← Voltar
+      </a>
+    </div>
+  </nav>
+
+  <header class="faq-hero" aria-label="FAQ">
+    <span class="faq-hero-tag">Hypewear — Suporte</span>
+    <h1 class="faq-hero-title">Perguntas<br>Frequentes</h1>
+    <p class="faq-hero-sub">Tudo o que precisas saber antes de comprar</p>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════
+       CONTEÚDO DO FAQ
+       Cada .faq-item é um accordion independente.
+       O JS abaixo gere a abertura/fecho.
+  ═══════════════════════════════════════════ -->
+  <main class="faq-section">
+
+    <!-- ─── Grupo: Encomendas ─────────────── -->
+    <div class="faq-group">
+      <h2 class="faq-group-title">Encomendas</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Como faço uma encomenda?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Escolhe o produto que queres, selecciona a cor e o tamanho e clica em "Adicionar ao carrinho". Quando estiveres pronto, clica no ícone do carrinho e segue as instruções de pagamento.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Posso cancelar ou alterar a minha encomenda?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Podes cancelar ou alterar a encomenda até 1 hora após a confirmação do pagamento. Após esse período a encomenda entra em processamento e não é possível fazer alterações. Entra em contacto connosco o mais rápido possível pelo WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Como sei se a minha encomenda foi confirmada?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Após a confirmação do pagamento recebes uma mensagem de confirmação. Se não receberes nada em 24 horas, contacta-nos pelo WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Grupo: Entregas ───────────────── -->
+    <div class="faq-group">
+      <h2 class="faq-group-title">Entregas</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Qual é o prazo de entrega?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>As encomendas são processadas e enviadas em 48 a 72h horas após a confirmação do pagamento (dias úteis). O prazo de entrega depende da tua localização.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          A entrega é gratuita?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>A entrega é gratuita arredores da cidade de Maputo e para às outras cidades, o custo da entrega  é cálculado conforme a localização do cliente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Entregam fora de Maputo?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Sim, fazemos as entregas a nível nacional e internacional. Para localidades mais remotas, o prazo pode ser superior ao habitual.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Grupo: Pagamentos ─────────────── -->
+    <div class="faq-group">
+      <h2 class="faq-group-title">Pagamentos</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Quais os métodos de pagamento aceites?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>M-pesa, transferência bancária, dinheiro em espécie (Numerário).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          O pagamento é seguro?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Sim. Todos os pagamentos são encriptados e processados por canais seguros. A Hypewear nunca armazena os dados do teu cartão.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Grupo: Produtos & Tamanhos ───── -->
+    <div class="faq-group">
+      <h2 class="faq-group-title">Produtos e Tamanhos</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Como escolho o tamanho certo?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Cada produto tem descrição do tipo de caimento (regular, oversized, slim). Como regra geral: se estás entre dois tamanhos e preferes um caimento mais folgado, sobe um tamanho. Se preferes mais justo, fica no tamanho habitual.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Os produtos são produzidos em Moçambique?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Sim. A Hypewear é um projecto 100% moçambicano. Os designs são criados no nosso estúdio em Maputo e a produção é feita localmente com tecidos criteriosamente seleccionados.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Grupo: Trocas ─────────────────── -->
+    <div class="faq-group">
+      <h2 class="faq-group-title">Trocas</h2>
+
+     <!--  <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Posso trocar de tamanho?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Sim, a troca de tamanho é gratuita no prazo de 7 dias após a recepção. A peça deve estar em perfeitas condições — sem sinais de uso, com etiqueta original. Contacta-nos pelo whh para iniciar o processo.</p>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Aceitam devoluções?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">
+            <p>Não aceitamos devoluções. Por isso recomendamos que leias atentamente a descrição do produto, o guia de tamanhos e entres em contacto connosco antes de comprar se tiveres alguma dúvida.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Bloco de contacto ─────────────── -->
+    <div class="faq-contact">
+      <div class="faq-contact-title">Não encontraste a tua resposta?</div>
+      <p class="faq-contact-sub">
+        Fala connosco directamente. Respondemos o mais rápido possível.
+      </p>
+      <a
+        href="https://wa.me/258848401586"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-dark"
+      >
+        Falar no WhatsApp
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+   <footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+
+    <!-- Marca -->
+    <div class="footer-brand-box">
+      <div class="footer-brand">Hypewear</div>
+      <p class="footer-tagline">
+        Street culture redefinida. Cada peça conta uma história.
+        Cada drop é um movimento. Orgulhosamente feito em Moçambique.
+      </p>
+    </div>
+
+    <!-- Ajuda -->
+    <nav class="footer-col" aria-label="Links de ajuda">
+      <h4>Ajuda</h4>
+      <ul role="list">
+        <li><a href="faq.html">Perguntas frequentes</a></li>
+        <li><a href="about.html">Sobre nós</a></li>
+      </ul>
+    </nav>
+
+    <!-- Contato -->
+    <nav class="footer-col" aria-label="Contato">
+      <h4>Contato</h4>
+
+      <div class="redes-social">
+        <a href="https://www.instagram.com/hypewear__mz?igsh=d2RtbTRlbjV2dWRx" aria-label="Instagram">
+          <i class="fab fa-instagram nevlek-media"></i>
+        </a>
+
+        <a href="https://wa.me/258848401586" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp nevlek-media"></i>
+        </a>
+        <a href="hypewear008@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope nevlek-media"></i>
+        </a>
+      </div>
+
+      <small class="footer-contact-text">
+        Fala connosco para encomendas, suporte e collabs.
+      </small>
+    </nav>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">
+      © 2026 Hypewear — Maputo, Moçambique
+    </span>
+  </div>
+</footer>
+  
+
+  <!-- ═══════════════════════════════════════════
+       TOAST (notificação temporária)
+  ═══════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPT DA PÁGINA FAQ
+       — Dark/light mode (reutiliza a lógica do JS principal)
+       — Accordion: abre/fecha cada pergunta
+       — Nav: sombra ao scroll + hamburger
+  ═══════════════════════════════════════════ -->
+  <script>
+
+    /* ─── Tema Dark / Light ──────────────────
+       Mesma lógica do hypewear.js mas autónoma —
+       não depende do ficheiro principal.
+    ─────────────────────────────────────────── */
+    const THEME_KEY = 'hypewear-theme';
+
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      root.classList.add('theme-transitioning');
+      clearTimeout(window._themeTimer);
+      window._themeTimer = setTimeout(() => root.classList.remove('theme-transitioning'), 420);
+
+      root.setAttribute('data-theme', theme);
+
+      const logo = document.getElementById('navLogo');
+      if (logo) {
+        const src = theme === 'dark'
+          ? (logo.dataset.srcDark  || logo.dataset.srcLight)
+          : (logo.dataset.srcLight || logo.src);
+        if (!logo.src.endsWith(src)) {
+          logo.style.opacity = '0';
+          setTimeout(() => { logo.src = src; logo.style.opacity = '1'; }, 160);
+        }
+      }
+
+      try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
+
+      const btn = document.getElementById('themeToggle');
+      if (btn) btn.setAttribute('aria-label', theme === 'dark' ? 'Activar modo claro' : 'Activar modo escuro');
+    }
+
+    /* Aplica o tema guardado antes do render */
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem(THEME_KEY); } catch (_) {}
+      const theme = (saved === 'dark' || saved === 'light')
+        ? saved
+        : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    /* ─── Sombra do nav ao fazer scroll ─────── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    /* ─── Accordion do FAQ ───────────────────── */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item     = btn.closest('.faq-item');
+        const isOpen   = item.classList.contains('open');
+
+        /* Fecha todos os itens abertos */
+        document.querySelectorAll('.faq-item.open').forEach(openItem => {
+          openItem.classList.remove('open');
+          openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+
+        /* Se o clicado não estava aberto, abre-o */
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+  </script>
+
+</body>
+</html>
