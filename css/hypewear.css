@@ -1281,7 +1281,6 @@ section + section {
   content: '';
   position: absolute;
   inset: -8px;
-}
   background: none;
   padding: 0;
   -webkit-appearance: none;
@@ -1680,7 +1679,44 @@ section + section {
     padding: 3rem 1.5rem 2rem;
   }
 }
-
+.nevlek-grupo {
+  padding: 46px 6px 46px 6px;
+  background: rgba(34,34,34,.97);
+  box-shadow:  0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.nevlek-awaken {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.butao-grupo {
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+.nevlek-media-whatsapp {
+  color: #222222;
+  font-size: 1.50rem;
+  transition: .25s ease;
+  padding: 5px 20px 5px 20px;
+}
+.nevlek-media-whatsapp a {
+  font-size: 1.1rem;
+  font-family: 'Nevlek-sub', sans-serif;
+  outline: none;
+  text-decoration: none;
+  font-style: normal;
+  color: #222222
+}
+.nevlek-awaken p {
+  color: white;
+  font-size: 1em;
+  font-style: italic;
+  padding: 10px 0 10px 0;
+}
 /* ═══════════════════════════════════════════
    17. CART DRAWER
    — Entra da direita via translateX
