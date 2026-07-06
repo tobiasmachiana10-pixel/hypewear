@@ -124,7 +124,7 @@ const products = [
     id: 1,
     name: 'T-Shirt Who You Think',
     sub: 'Coleção Essentials',
-    price: 1200,
+    price: 1100,
     oldPrice: null,
     tag: 'Novo',
     category: 'tshirts',
