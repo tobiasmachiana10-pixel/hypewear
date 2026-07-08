@@ -124,7 +124,7 @@ const products = [
     id: 1,
     name: 'T-Shirt Who You Think',
     sub: 'Coleção Essentials',
-    price: 1100,
+    price: 1200,
     oldPrice: null,
     tag: 'Novo',
     category: 'tshirts',
@@ -415,6 +415,10 @@ function getFocusable(container) {
 
 let carouselIndex  = 0;
 let slidesPerView  = 3;
+const CAROUSEL_CLONES = 3;
+const CAROUSEL_AUTOPLAY_MS = 3000;
+let carouselRealLength = 0;
+let carouselAutoplayTimer = null;
 
 function getSlidesPerView() {
   const w = window.innerWidth;
@@ -424,31 +428,23 @@ function getSlidesPerView() {
   return 3;
 }
 
-function buildCarousel() {
-  slidesPerView = getSlidesPerView();
-  const track = document.getElementById('carouselTrack');
-  if (!track) return;
-
-  const featured = products.filter(p => p.featured);
-
-  track.innerHTML = featured.map(p => {
-    const color = cardColors[p.id] || p.colors[0];
-    return `
+function renderCarouselSlide(p) {
+  const color = cardColors[p.id] || p.colors[0];
+  return `
       <div class="carousel-slide" role="group" aria-label="${p.name}">
-        <div class="prod-card-v2" onclick="openModal(${p.id})">
+        <div class="prod-card-v2" data-pid="${p.id}" onclick="openModal(${p.id})">
 
-          <div class="prod-img-v2 bg-${color}" id="cardImg-${p.id}">
+          <div class="prod-img-v2 bg-${color}">
             ${p.tag ? `<span class="prod-label">${p.tag}</span>` : ''}
             <div class="prod-img-inner">
               <img
-                id="cardImgPng-${p.id}"
                 src="${getProductImage(p.id, color)}"
                 alt="${p.name} — ${color}"
                 loading="lazy"
                 style="width:100%;height:100%;object-fit:cover;display:block;"
-                onerror="this.style.display='none';document.getElementById('cardImgSvg-${p.id}').style.display='flex'"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
               >
-              <span id="cardImgSvg-${p.id}" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${clothIcon}</span>
+              <span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;">${clothIcon}</span>
             </div>
             <div class="prod-quick">
               <button
@@ -484,36 +480,46 @@ function buildCarousel() {
 
         </div>
       </div>`;
-  }).join('');
+}
+
+function buildCarousel() {
+  slidesPerView = getSlidesPerView();
+  const track = document.getElementById('carouselTrack');
+  if (!track) return;
+
+  const featured = products.filter(p => p.featured);
+  carouselRealLength = featured.length;
+
+  const head = featured.slice(-CAROUSEL_CLONES);
+  const tail = featured.slice(0, CAROUSEL_CLONES);
+  const extended = [...head, ...featured, ...tail];
+
+  track.innerHTML = extended.map(renderCarouselSlide).join('');
 
   buildDots();
-  goToSlide(0, false);
+  goToSlide(CAROUSEL_CLONES, false);
+  startCarouselAutoplay();
 }
 
 function buildDots() {
-  slidesPerView = getSlidesPerView();
-  const featured = products.filter(p => p.featured);
-  const maxIdx   = Math.max(0, featured.length - slidesPerView);
-  const dotsEl   = document.getElementById('carouselDots');
+  const dotsEl = document.getElementById('carouselDots');
   if (!dotsEl) return;
 
-  dotsEl.innerHTML = Array.from({ length: maxIdx + 1 }, (_, i) =>
+  const activeIdx = ((carouselIndex - CAROUSEL_CLONES) % carouselRealLength + carouselRealLength) % carouselRealLength;
+
+  dotsEl.innerHTML = Array.from({ length: carouselRealLength }, (_, i) =>
     `<button
-      class="carousel-dot${i === carouselIndex ? ' active' : ''}"
-      onclick="goToSlide(${i}, true)"
+      class="carousel-dot${i === activeIdx ? ' active' : ''}"
+      onclick="goToSlide(${CAROUSEL_CLONES + i}, true)"
       aria-label="Ir para slide ${i + 1}"
       role="tab"
-      aria-selected="${i === carouselIndex}"
+      aria-selected="${i === activeIdx}"
     ></button>`
   ).join('');
 }
 
 function goToSlide(idx, animate) {
-  slidesPerView = getSlidesPerView();
-  const featured = products.filter(p => p.featured);
-  const maxIdx   = Math.max(0, featured.length - slidesPerView);
-
-  carouselIndex = Math.max(0, Math.min(idx, maxIdx));
+  carouselIndex = idx;
 
   const track = document.getElementById('carouselTrack');
   if (!track || !track.children[0]) return;
@@ -523,19 +529,44 @@ function goToSlide(idx, animate) {
   track.style.transition = animate ? 'transform .45s var(--ease-out)' : 'none';
   track.style.transform  = `translateX(-${carouselIndex * slideWidth}px)`;
 
+  const activeIdx = ((carouselIndex - CAROUSEL_CLONES) % carouselRealLength + carouselRealLength) % carouselRealLength;
   document.querySelectorAll('.carousel-dot').forEach((d, i) => {
-    d.classList.toggle('active', i === carouselIndex);
-    d.setAttribute('aria-selected', i === carouselIndex);
+    d.classList.toggle('active', i === activeIdx);
+    d.setAttribute('aria-selected', i === activeIdx);
   });
-
-  const prevBtn = document.getElementById('carouselPrev');
-  const nextBtn = document.getElementById('carouselNext');
-  if (prevBtn) prevBtn.disabled = carouselIndex === 0;
-  if (nextBtn) nextBtn.disabled = carouselIndex >= maxIdx;
 }
 
-document.getElementById('carouselPrev')?.addEventListener('click', () => goToSlide(carouselIndex - 1, true));
-document.getElementById('carouselNext')?.addEventListener('click', () => goToSlide(carouselIndex + 1, true));
+function carouselLoopCheck() {
+  if (carouselIndex >= CAROUSEL_CLONES + carouselRealLength) {
+    goToSlide(carouselIndex - carouselRealLength, false);
+  } else if (carouselIndex < CAROUSEL_CLONES) {
+    goToSlide(carouselIndex + carouselRealLength, false);
+  }
+}
+
+document.getElementById('carouselTrack')?.addEventListener('transitionend', carouselLoopCheck);
+
+function startCarouselAutoplay() {
+  clearInterval(carouselAutoplayTimer);
+  carouselAutoplayTimer = setInterval(() => goToSlide(carouselIndex + 1, true), CAROUSEL_AUTOPLAY_MS);
+}
+
+function stopCarouselAutoplay() {
+  clearInterval(carouselAutoplayTimer);
+}
+
+document.getElementById('carouselPrev')?.addEventListener('click', () => {
+  goToSlide(carouselIndex - 1, true);
+  startCarouselAutoplay();
+});
+document.getElementById('carouselNext')?.addEventListener('click', () => {
+  goToSlide(carouselIndex + 1, true);
+  startCarouselAutoplay();
+});
+
+const carouselWrapperEl = document.querySelector('.carousel-wrapper');
+carouselWrapperEl?.addEventListener('mouseenter', stopCarouselAutoplay);
+carouselWrapperEl?.addEventListener('mouseleave', startCarouselAutoplay);
 
 /* Recalcula ao redimensionar — com debounce de 120ms */
 let resizeTimer;
@@ -543,12 +574,7 @@ window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     slidesPerView = getSlidesPerView();
-    buildDots();
-    const featured = products.filter(p => p.featured);
-    goToSlide(
-      Math.min(carouselIndex, Math.max(0, featured.length - slidesPerView)),
-      false
-    );
+    goToSlide(carouselIndex, false);
   }, 120);
 });
 
@@ -557,11 +583,13 @@ let touchStartX = 0;
 
 document.getElementById('carouselTrack')?.addEventListener('touchstart', e => {
   touchStartX = e.touches[0].clientX;
+  stopCarouselAutoplay();
 }, { passive: true });
 
 document.getElementById('carouselTrack')?.addEventListener('touchend', e => {
   const diff = touchStartX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 40) goToSlide(carouselIndex + (diff > 0 ? 1 : -1), true);
+  startCarouselAutoplay();
 });
 
 
@@ -572,20 +600,20 @@ document.getElementById('carouselTrack')?.addEventListener('touchend', e => {
 function setCardColor(productId, color, btn) {
   cardColors[productId] = color;
 
-  const containerEl = document.getElementById('cardImg-' + productId);
-  if (containerEl) containerEl.className = 'prod-img-v2 bg-' + color;
+  document.querySelectorAll(`.prod-card-v2[data-pid="${productId}"]`).forEach(card => {
+    const containerEl = card.querySelector('.prod-img-v2');
+    if (containerEl) containerEl.className = 'prod-img-v2 bg-' + color;
 
-  const imgEl = document.getElementById('cardImgPng-' + productId);
-  const svgEl = document.getElementById('cardImgSvg-' + productId);
-  applyImage(imgEl, svgEl, productId, color);
+    const imgEl = card.querySelector('.prod-img-inner img');
+    const svgEl = card.querySelector('.prod-img-inner span');
+    applyImage(imgEl, svgEl, productId, color);
 
-  btn.closest('.prod-colors')
-    ?.querySelectorAll('.color-swatch')
-    .forEach(s => {
+    card.querySelectorAll('.color-swatch').forEach(s => {
       const isActive = s.dataset.color === color;
       s.classList.toggle('active', isActive);
       s.setAttribute('aria-label', `Cor ${s.dataset.color}${isActive ? ' (seleccionada)' : ''}`);
     });
+  });
 }
 
 
@@ -698,20 +726,20 @@ function setModalColor(color, btn) {
 
   /* Sincroniza o card no carousel */
   cardColors[modalState.productId] = color;
-  const containerEl = document.getElementById('cardImg-' + modalState.productId);
-  if (containerEl) containerEl.className = 'prod-img-v2 bg-' + color;
+  document.querySelectorAll(`.prod-card-v2[data-pid="${modalState.productId}"]`).forEach(card => {
+    const containerEl = card.querySelector('.prod-img-v2');
+    if (containerEl) containerEl.className = 'prod-img-v2 bg-' + color;
 
-  applyImage(
-    document.getElementById('cardImgPng-' + modalState.productId),
-    document.getElementById('cardImgSvg-' + modalState.productId),
-    modalState.productId,
-    color
-  );
+    applyImage(
+      card.querySelector('.prod-img-inner img'),
+      card.querySelector('.prod-img-inner span'),
+      modalState.productId,
+      color
+    );
 
-  containerEl
-    ?.parentElement
-    ?.querySelectorAll('.color-swatch')
-    .forEach(s => s.classList.toggle('active', s.dataset.color === color));
+    card.querySelectorAll('.color-swatch')
+      .forEach(s => s.classList.toggle('active', s.dataset.color === color));
+  });
 }
 
 function setModalSize(size, btn) {
