@@ -195,14 +195,14 @@ const products = [
   },
     {
     id: 9,
-    name: 'Ecobag Sweet Rosa',
+    name: 'Ecobag Swee',
     sub: 'Acessórios',
     price: 750,
     oldPrice: null,
     tag: 'Novo',
     category: 'ecobags',
     sizes: ['Único'],
-    colors: ['rosa', 'castanho'],
+    colors: ['rosa', 'castanho', 'preto'],
     desc: 'Lona resistente, Estampa Hypewear Sweet com arte pop de lábios lilás e rosa. Alças reforçadas. Sustentável e com atitude.',
     featured: false,
     folder: 'ecobag'
